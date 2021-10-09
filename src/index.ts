@@ -1,14 +1,14 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import http from 'http';
+import { App } from './app';
 
 const PORT = process.env.PORT || 3000;
 
-const app = express();
-const server = http.createServer(app);
+const appInitialize = new App(express);
 
-app.get('/status', (req: Request, res: Response, next: NextFunction) => {
-  res.status(200).json({ foo: 'bar' });
-});
+appInitialize.init();
+
+const server = http.createServer(appInitialize.getApp);
 
 server.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}/`);
